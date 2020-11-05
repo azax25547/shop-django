@@ -1,0 +1,58 @@
+{% extends 'shop/base.html' %}
+{% block title %}Welcome to Shop Application {% endblock %}
+{% block content %}
+    <p class="lead">Presenting you all range of products. Check all ranges of product or select them category wise.</p>
+        <hr>
+    <ul class="list-group list-group-horizontal">
+    {% for category in cat %}
+      <li class="list-group-item">{{ category.name }}</li>
+    {% endfor %}
+    </ul>
+    <div class="card-columns mt-2">
+        {% for product in products %}
+            {% if product.is_available %}
+                <div class="card">
+                    <img class="card-img-top img-thumbnail"
+                         src="https://www.cureuppharma.in/wp-content/uploads/2018/06/dummy.jpg"
+                         alt="Card image cap"
+                    >
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="{{ product.get_absolute_url }}"> {{ product.name }} </a></h5>
+                        <p class="card-text">{{ product.description }}</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"> ₹ {{ product.price }}</li>
+                        <li class="list-group-item">{{ product.rating }} star{{ product.rating|pluralize }}</li>
+                    </ul>
+                    <div class="card-body">
+
+                        <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                            <div id="to_cart">
+                                                            {{ cart_form }}
+                            </div>
+                            {%  csrf_token %}
+                            <input type="submit" value="Add to cart" class="card-link btn btn-link btn-light">
+                        </form>
+                    </div>
+                </div>
+            {% else %}
+                <div class="card">
+                    <img class="card-img-top img-thumbnail"
+                         src="https://www.cureuppharma.in/wp-content/uploads/2018/06/dummy.jpg
+"
+                         style="filter: grayscale(100%)" alt="Card image cap">
+                    <div class="card-body">
+                        <span class="text-danger">Out of stock</span>
+                        <h5 class="card-title"><a href="{{ product.get_absolute_url }}"> {{ product.name }} </a></h5>
+                        <p class="card-text">{{ product.description }}</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"> ₹ {{ product.price }}</li>
+                        <li class="list-group-item">{{ product.rating }} star{{ product.rating|pluralize }}</li>
+                    </ul>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+{% endblock %}

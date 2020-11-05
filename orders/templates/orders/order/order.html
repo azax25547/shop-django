@@ -1,0 +1,9 @@
+{% extends 'shop/base.html' %}
+{% block title %}Order Recieved{% endblock %}
+{% block content %}
+    <div class="text-center">
+        <h1 class="text-success">Thank You</h1>
+        <p class="lead">Your order has succesfully Placed.</p>
+    <p class="lead">Kindly find the Order id is {{ order.id }}</p>
+    </div>
+{% endblock %}
